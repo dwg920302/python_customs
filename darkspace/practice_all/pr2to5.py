@@ -1,5 +1,5 @@
 class Replacer:
-    def setdata(self, dat):
+    def __init__(self, dat):
         self.dat = dat
 
     def replacing(self):
@@ -11,6 +11,6 @@ class Replacer:
 
 if __name__ == '_main__':
     a ="881220-1068234"
-    r = Replacer()
+    r = Replacer(a)
     r.replacing()
     r.output()

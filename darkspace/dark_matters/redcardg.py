@@ -10,7 +10,7 @@ class LightCard(Card):
         self.light = 1
 
 
-class RedCard(object):
+class RedCardG(object):
     def __init__(self):
         pass
 
@@ -19,5 +19,4 @@ class RedCard(object):
         deck = []
 
 
-
-RedCard.main()
+RedCardG.main()

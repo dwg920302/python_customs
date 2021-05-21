@@ -5,10 +5,13 @@ class NinetoNine(object):
     @staticmethod
     def main():
         a = 2
-        b = 1
         while a < 10:
-            pr
-
+            print(f'[{a} dan]')
+            b = 1
+            while b < 10:
+                print(f'{a} x {b} = {a*b}')
+                b += 1
+            a += 1
 
 
 NinetoNine.main()

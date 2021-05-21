@@ -4,14 +4,19 @@ class Sumnavg:
         self.mat = mat
         self.eng = eng
 
-    def sum(self):
+    @staticmethod
+    def sum(thr):
         return thr.kor+thr.mat+thr.eng
 
-    def avg(self):
+    @staticmethod
+    def avg(thr):
         result = thr.sum()/3
         return result
 
-if __name__ == '__main__':
-    thr = Sumnavg()
-    thr.getGrade(80, 55, 75)
-    print(thr.avg())
+    @staticmethod
+    def main():
+        Sumnavg.getGrade(80, 55, 75)
+        print(Sumnavg.avg())
+
+
+Sumnavg.main()
