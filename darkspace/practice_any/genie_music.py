@@ -22,25 +22,23 @@ class GenieMusic(object):
     common_dict = {}
 
     def set_url(self):
-
         self.url = f'https://www.genie.co.kr/chart/top200?ditc=D&ymd={self.date}&rtm=Y&hh={self.hour}'
         modifier = urllib.request.Request(self.url, headers=self.header)
         self.soup = BeautifulSoup(urlopen(modifier), 'lxml')
 
     def scrap(self):
-
         print(self.url)
         cnt = 0
         for i in self.soup.find_all(name='td', attrs=({"class": "info"})):
             cnt += 1
-            title = i.find(name='a', attrs=({"class": "title ellipsis"})).text
+            title = i.find(name='a', attrs=({"class": "title ellipsis"})).text.strip()
             artist = i.find(name='a', attrs=({"class": "artist ellipsis"})).text
             print(f'{title} / {artist} / {cnt}위')
-            # 되긴 하는데 띄어쓰기 때문에 이상하게 나옴
+            # 타이틀 불러오기의 경우 비정상적으로 많은 공백이 포함되어 있어서 split() 함수로 공백을 전부 제거함
 
     def get_lists(self):
         for i in self.soup.find_all(name='td', attrs=({"class": "info"})):
-            self.t_lst.append(i.find(name='a', attrs=({"class": "title ellipsis"})).text)
+            self.t_lst.append(i.find(name='a', attrs=({"class": "title ellipsis"})).text.strip())
             self.a_lst.append(i.find(name='a', attrs=({"class": "artist ellipsis"})).text)
 
     def get_dict(self):
