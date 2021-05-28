@@ -1,7 +1,5 @@
 from bs4 import BeautifulSoup
 import pandas as pd
-import urllib
-from urllib.request import urlopen
 import requests
 
 
@@ -9,7 +7,7 @@ class NaverFinance(object):
 
     url = 'https://finance.naver.com/sise/lastsearch2.nhn'   # URL이 고정값이라 따로 입력받지 않음
     header = {'User-Agent': 'Mozilla/5.0'}
-    path = './data/naver_finance.csv'
+    path = './csv_data/naver_finance.csv'
     soup = None
 
     doc = ''
@@ -17,6 +15,9 @@ class NaverFinance(object):
     ls_keys = []
     ls_values = []
     ls_elements = []
+
+    ls_indexes = []
+
     common_dict = {}
     common_dframe = None
 
@@ -30,25 +31,31 @@ class NaverFinance(object):
         print(self.url)
         with requests.get(self.url, self.header) as doc:
             html = BeautifulSoup(doc.text, "lxml")
-            for i in html.find_all(name="tr"):
-                if i == None:
+            for i in html.find_all(name='tr', attrs=({"class": "type1"})):
+                try:
+                    self.ls_indexes.append(i.find(name='th').text)
+                except AttributeError:  # None 처리
                     continue
-                else:
-                    self.ls_keys.append(i.find(name='td', attrs=({"class": "no"})))
-            print(self.ls_keys)
+        print(self.ls_indexes)
 
-        # for i in self.soup.find_all(name="tr"):
-        #     self.ls_keys.append(i.find(name='td', attrs=({"class": "no"})).text)
-        # print(self.ls_keys)
-        # text 빼면 잘 받아오긴 함, None이 마이 섞여있음; 이걸 처리해야 함
+        with requests.get(self.url, self.header) as doc:    # 이렇게 되어야만 동작함
+            html = BeautifulSoup(doc.text, "lxml")
+            for i in html.find_all(name="tr"):
+                try:
+                    self.ls_keys.append(i.find(name='td', attrs=({"class": "no"})).text)
+                    self.ls_values.append([i.find(name='a', attrs=({"class": "tltle"})).text])
+                except AttributeError:  # None-type 가져올 때 Error를 무시시킴
+                    continue
+                # 종목명 이름 TITLE(title)을 일부러 TLTLE(tltle)로 오타낸거 실화냐 ㅡㅡ
+        print(self.ls_keys)
+        print(self.ls_values)
+        for i in range(len(self.ls_keys)):
+            self.common_dict[self.ls_keys] = self.ls_values
 
-        # for i in self.soup.find_all(name="tr"):
-        #     ls.append(i.find(name='a', attrs=({"class": "title"})).text)
-        # print(ls)
-        # 왜 자꾸 NoneType를 받는것인가... 위의 코드에서 못 받아온 건가?
+    def get_csv(self):
+        self.common_dframe = pd.DataFrame
+        self.common_dframe.to_csv(self.path, sep=',', na_rep='NaN')
 
-    def get_what(self):
-        pd.DataFrame.to_csv(self.path, sep=',', na_rep='NaN')
 
     @staticmethod
     def main():
@@ -60,7 +67,7 @@ class NaverFinance(object):
             elif menu == '1':
                 naver.get_stock_info()
             elif menu == '2':
-                naver.get_stock_info()
+                naver.get_csv()
             elif menu == '3':
                 pass
             else:
