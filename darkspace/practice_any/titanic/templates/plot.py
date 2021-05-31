@@ -72,3 +72,19 @@ class Plot(object):
         this['Embarked'].value_counts().plot.barh()
         axs.set_title('(blank)')
         plt.show()
+
+    def draw_four(self):
+        this = self.entity
+        this['Survived'].replace(1, "Survived").replace(0, "Dead")
+        fig, axs = plt.subplots(1, 4, figsize=(18, 6))
+        this['Survived'].value_counts().plot.pie(explode=[0, 0.2], autopct='%1.1f%%', ax=axs[0])
+        axs[0].set_title('Survivors')
+        this['Pclass'] = this['Pclass'].replace(1, "1등석").replace(2, "비지니스").replace(3, "이코노미")     # 내용물 일괄 바꾸기
+        sns.countplot(data=this, x="Pclass", ax=axs[1])
+        this['Sex'].value_counts().plot.pie(explode=[0, 0.1], autopct='%1.1f%%', ax=axs[2])
+        axs[2].set_title('생존자 성별비')
+        axs[2].set_ylabel('')
+        this = self.entity
+        this['Embarked'] = this['Embarked'].replace('C', "Cherbourg").replace('Q', "QueensTown").replace('S', "Southampton")
+        this['Embarked'].value_counts().plot.barh(ax=axs[3])
+        plt.show()

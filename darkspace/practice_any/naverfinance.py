@@ -14,7 +14,7 @@ class NaverFinance(object):
 
     ls_keys = []
     ls_values = []
-    ls_elements = []
+    ls_values2 = []
 
     ls_indexes = []
 
@@ -43,14 +43,25 @@ class NaverFinance(object):
             for i in html.find_all(name="tr"):
                 try:
                     self.ls_keys.append(i.find(name='td', attrs=({"class": "no"})).text)
-                    self.ls_values.append([i.find(name='a', attrs=({"class": "tltle"})).text])
+                    self.ls_values.append(i.find(name='a', attrs=({"class": "tltle"})).text)
+                    self.ls_values2.append(i.select('a')[0]['href'])
                 except AttributeError:  # None-type 가져올 때 Error를 무시시킴
                     continue
                 # 종목명 이름 TITLE(title)을 일부러 TLTLE(tltle)로 오타낸거 실화냐 ㅡㅡ
         print(self.ls_keys)
         print(self.ls_values)
+        print(self.ls_values2)
+        self.re_value2()
         for i in range(len(self.ls_keys)):
-            self.common_dict[self.ls_keys] = self.ls_values
+            self.common_dict[self.ls_keys[i]] = [self.ls_values[i], self.ls_values2[i]]
+        print(self.common_dict)
+
+    def re_value2(self):
+        for i in range(len(self.ls_values2)):
+            self.ls_values2[i] = self.ls_values2[i].split('code=')[1]
+        print(self.ls_values2)
+
+        # 멍청하게 일일이 URL 다 불러서 가져왔던 내 자신에게 Cheers... 걍 문자열 자르면 됨
 
     def get_csv(self):
         self.common_dframe = pd.DataFrame
