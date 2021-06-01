@@ -22,6 +22,7 @@ if __name__ == '__main__':
         elif mn == '4':
             pass
         elif mn == '8':
+            plot = Plot('train.csv')
             plot.draw_four()
         else:
             print('error')

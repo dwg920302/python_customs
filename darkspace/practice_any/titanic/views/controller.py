@@ -19,8 +19,23 @@ class Controller(object):
         this = self.dataset
         this.train = service.new_model(train)
         this.test = service.new_model(test)
+        this = service.drop_feature(this, 'Cabin')
+        this = service.drop_feature(this, 'Ticket')
+        this = service.embarked_nominal(this)
+        this = service.title_nominal(this)
+        this = service.drop_feature(this, 'Name')
+        this = service.gender_nominal(this)
+        this = service.age_ordinal(this)
+        self.print_this(this)
+        return this
+
+    @staticmethod
+    def print_this(this):
+        print('-'*44+'<type check>'+'-'*44)
         print(f'Train Type = {type(this.train)}')
         print(f'Train의 column = {this.train.columns}')
+        print(f'Train의 상위 5개 데이터 = {this.train.head(20)}')
         print(f'Test Type = {type(this.test)}')
-        print(f'Train의 column = {this.test.columns}')
-        return this
+        print(f'Test의 column = {this.test.columns}')
+        print(f'Test의 상위 5개 데이터 = {this.test.head(20)}')
+        print('-' * 100)
