@@ -16,11 +16,11 @@ if __name__ == '__main__':
             plot.draw_gender()
             plot.draw_embarked_oth()
         elif mn == '2':
-            controller.modeling('train.csv', 'test.csv')
+            dat = controller.modeling('train.csv', 'test.csv')
         elif mn == '3':
-            pass
+            controller.learning('train.csv', 'test.csv')
         elif mn == '4':
-            pass
+            controller.submit('train.csv', 'test.csv')
         elif mn == '8':
             plot = Plot('train.csv')
             plot.draw_four()
