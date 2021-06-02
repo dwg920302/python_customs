@@ -1,5 +1,5 @@
-from practice_any.titanic.models.dataset import Dataset
-from practice_any.titanic.models.service import Service
+from titanic.models.dataset import Dataset
+from titanic.models.service import Service
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
