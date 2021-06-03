@@ -25,9 +25,20 @@ n을 d(n)의 생성자라고 한다. 위의 수열에서 33은 39의 생성자�
 2 -> 1(해당 수) + 1(1의 자리)
 4 -> 2(해당 수) + 2(1의 자리)
 '''
+lst = []
 
-ls = []
+for i in range(1, 10000 + 1):
+    lst.append(i)
 
-for i in range(100+1):
+for i in range(1, 10000 + 1):
     val = i
-    print(str(f'{i}'))
+    sval = str(val)
+    for j in sval:
+        val += int(j)
+    if lst.count(val) > 0:
+        lst.remove(val)
+
+for i in lst:
+    print(i)
+
+# 코드 압축만 하면 됨

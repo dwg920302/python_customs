@@ -33,15 +33,17 @@ class Controller(object):
         this.train = service.new_model(train)
         this.test = service.new_model(test)
         this.id = this.test['PassengerId']
-        #   초기 모델 생성
-        this = service.embarked_nominal(this)
+        #   여기 밑에 조정할 것 입력
+        this = service.pclass_nominal(this)
         this = service.title_nominal(this)
         this = service.gender_nominal(this)
         this = service.age_ordinal(this)
-        #   nominal,ordinal로 정형화
-        this = service.fare_ordinal(this)
-        this = service.drop_feature(this, 'Fare', 'Cabin', 'Ticket', 'Name', 'Gender', 'Age')
-        #   불필요한 feature (Name, Gender) 제거
+        this = service.sibspparch_ordinal(this)
+        this = service.cabin_nominal(this)
+        this = service.embarked_nominal(this)
+        #   불필요한 feature 제거
+        this = service.drop_feature(this, 'Name', 'Ticket', 'Fare', 'Cabin', 'Age')
+        #   여기 위에 조정할 것 입력
         self.print_this(this)
         return this
 

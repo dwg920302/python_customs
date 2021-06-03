@@ -1,5 +1,5 @@
-from practice_any.titanic.views.controller import Controller
-from practice_any.titanic.templates.plot import Plot
+from titanic.views.controller import Controller
+from titanic.templates.plot import Plot
 
 if __name__ == '__main__':
     controller = Controller()
